@@ -27,11 +27,11 @@ def main():
     #     4. When satisfied with your work, move onto the next test.
     # ------------------------------------------------------------------
 
-    run_test_generate_points_on_circle()
-    run_test_draw_points_on_circle()
-    run_test_pizza()
-    run_test_polygon()
-    # run_test_fancy_polygon()
+    # run_test_generate_points_on_circle()
+    # run_test_draw_points_on_circle()
+    # run_test_pizza()
+    # run_test_polygon()
+    run_test_fancy_polygon()
 
 
 def run_test_generate_points_on_circle():
@@ -508,7 +508,7 @@ def run_test_fancy_polygon():
     window = rg.RoseWindow(500, 500, title)
     circle = rg.Circle(rg.Point(250, 250), 200)
     circle.fill_color = 'chocolate'
-    fancy_polygon(window, circle, 51, 25, 'orange')
+    fancy_polygon(window, circle, 51, 25, 'orange', 3)
     window.close_on_mouse_click()
 
 
@@ -570,7 +570,7 @@ def fancy_polygon(window, circle, number_of_lines, hops_to_next_point, color, th
       :type thickness:       int
     """
     # ------------------------------------------------------------------
-    # TODO: 10. Implement and test this function.
+    # DONE: 10. Implement and test this function.
     #   Note that you should write its TEST function first (above).
     #
     # IMPLEMENTATION REQUIREMENT:
@@ -583,6 +583,23 @@ def fancy_polygon(window, circle, number_of_lines, hops_to_next_point, color, th
     #       appropriately.  ASK YOUR INSTRUCTOR FOR AN EXAMPLE.
     ####################################################################
     # ------------------------------------------------------------------
+
+    circle.attach_to(window)
+    point_list = generate_points_on_circle(circle, number_of_lines)
+
+    for k in range(len(point_list)):
+        if (k + hops_to_next_point) <= len(point_list) - 1:
+            line = rg.Line(point_list[k], point_list[k + hops_to_next_point])
+        elif (k + hops_to_next_point) > len(point_list) - 1:
+            if (len(point_list) - 1) % k == 0:
+                line = rg.Line(point_list[k], point_list[(k + hops_to_next_point) - (len(point_list) - 1) - 1])
+            else:
+                line = rg.Line(point_list[k], point_list[((k + hops_to_next_point) % (len(point_list) - 1)) - 1])
+        line.color = color
+        line.thickness = thickness
+        line.arrow = 'last'
+        line.attach_to(window)
+        window.render()
 
 
 # ----------------------------------------------------------------------
